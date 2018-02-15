@@ -10,6 +10,14 @@ function initBuffers() {
   //loadObject( /*name, file*/ );
 }
 
+//load JSON object
+//{
+//  vertexPositions : []
+//  vertexNormals : []
+//  vertexColors :  []
+//  vertexTextureCoords : []
+//  indices : []
+//}
 function loadObject(name, file) {
   var request = new XMLHttpRequest();
   request.open("GET", file);

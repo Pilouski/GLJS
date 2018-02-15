@@ -4,14 +4,11 @@ function drawScene() {
 
   mat4.perspective(projectionMatrix, localParam.camera.fovy, gl.viewportWidth / gl.viewportHeight, localParam.camera.near, localParam.camera.far);
 
-  mat4.identity(worldMatrix);
-  mat4.identity(viewMatrix);
+  mat4.translate(viewMatrix, viewMatrix, vec3.clone(localParam.camera.translate));
+  mat4.rotateX(viewMatrix, viewMatrix, localParam.camera.rotate[0]);
+  mat4.rotateY(viewMatrix, viewMatrix, localParam.camera.rotate[1]);
 
-  mat4.translate(viewMatrix, vec3.clone(localParam.camera.translate));
-  viewMatrix = M4x4.rotate(localParam.camera.rotate[0], V3.$(1, 0, 0), viewMatrix);
-  viewMatrix = M4x4.rotate(localParam.camera.rotate[1], V3.$(0, 1, 0), viewMatrix);
-
-  localParam.camera.eye = V3.$(-invertedViewMatrix[12], -invertedViewMatrix[13], -invertedViewMatrix[14]);
+  localParam.camera.eye = vec3.getTranslation();
 
   setMatrixUniforms();
 

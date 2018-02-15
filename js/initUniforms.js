@@ -21,8 +21,8 @@ function setMatrixUniforms(){
   mat4.invert(invertedViewMatrix,viewMatrix);
 
   // Set Uniforms
-  gl.uniformMatrix4fv(.world, gl.FALSE, new Float32Array(worldMatrix));
-  gl.uniformMatrix4fv(.worldView, gl.FALSE, new Float32Array(worldViewMatrix));
-  gl.uniformMatrix4fv(.worldViewProj, gl.FALSE, new Float32Array(worldViewProjectionMatrix));
-  gl.uniformMatrix4fv(.viewInv, gl.FALSE, new Float32Array(invertedViewMatrix));
+  gl.uniformMatrix4fv(currentProgram.world, gl.FALSE, new Float32Array(worldMatrix));
+  gl.uniformMatrix4fv(currentProgram.worldView, gl.FALSE, new Float32Array(worldViewMatrix));
+  gl.uniformMatrix4fv(currentProgram.worldViewProj, gl.FALSE, new Float32Array(worldViewProjectionMatrix));
+  gl.uniformMatrix4fv(currentProgram.viewInv, gl.FALSE, new Float32Array(invertedViewMatrix));
 }

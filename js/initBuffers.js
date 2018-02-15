@@ -7,7 +7,7 @@ var skinWeightBuffer = {};
 var bufferOK = {};
 
 function initBuffers() {
-  loadObject( /*name, file*/ );
+  //loadObject( /*name, file*/ );
 }
 
 function loadObject(name, file) {

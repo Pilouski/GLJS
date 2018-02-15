@@ -39,8 +39,6 @@ function initGL() {
   initShaders();
   initTextures();
 
-  setDebugParam();
-
   gl.clearColor(0., 0., 0., 0.);
   gl.clearDepth(1.);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);

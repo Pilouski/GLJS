@@ -1,4 +1,4 @@
-var viewMatrix = mat4.create();
+var viewMatrix = {};
 var projectionMatrix = mat4.create();
 var worldMatrix = mat4.create();
 var invertedViewMatrix = mat4.create();

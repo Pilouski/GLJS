@@ -12,7 +12,7 @@ function initWindow() {
   canvas.width = width;
   canvas.height = height;
   try {
-    gl = htmlCanvas.getContext('webgl2') || htmlCanvas.getContext('webgl');
+    gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!gl) {
       let msg = "Error creating WebGL Context : Browser does not support WebGL";
       alert(msg);

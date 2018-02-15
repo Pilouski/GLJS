@@ -1,27 +1,26 @@
 var gl;
-var canvas,width,height;
+var canvas, width, height;
 
 function initWindow() {
-  width = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.body.clientWidth;
-  height = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
+  width = window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+  height = window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.body.clientHeight;
 
   canvas.width = width;
   canvas.height = height;
   try {
     gl = htmlCanvas.getContext('webgl2') || htmlCanvas.getContext('webgl');
-    if ( ! gl ) {
+    if (!gl) {
       let msg = "Error creating WebGL Context : Browser does not support WebGL";
       alert(msg);
       throw Error(msg);
     }
     gl.viewportWidth = width;
     gl.viewportHeight = height;
-  }
-  catch (e) {
+  } catch (e) {
     let msg = "Error creating WebGL Context : " + e.toString();
     alert(msg);
     throw Error(msg);

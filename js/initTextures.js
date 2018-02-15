@@ -2,7 +2,7 @@ var texture = {};
 var textureOK = {};
 
 function initTextures() {
-  loadTexture(/*label, path*/);
+  loadTexture( /*label, path*/ );
 }
 
 function loadTexture(label, path) {

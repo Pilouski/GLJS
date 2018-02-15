@@ -1,13 +1,13 @@
 var localParam = new LocalParam();
 
-function LocalParam(){
+function LocalParam() {
   this.camera = {
-    near : 5,
-    far : 530,
-    fov : 40,
-    rotate : [-0.3, 0, 0],
-    translate : [0, 0, -280],
-    eye : [0, 0, -64]
+    near: 5,
+    far: 530,
+    fov: 40,
+    rotate: [-0.3, 0, 0],
+    translate: [0, 0, -280],
+    eye: [0, 0, -64]
   };
 
   this.LODBias = 8.0;

@@ -84,13 +84,13 @@ var currentProgram;
 var shaderProgram = {};
 
 function initShaders() {
-  shaderProgram[/* name */] = createProgram(/* fragment id */, /* vertex id */);
-  currentProgram = shaderProgram[/* name */];
-  setShader(/* name */);
+  shaderProgram[ /* name */ ] = createProgram( /* fragment id */ , /* vertex id */ );
+  currentProgram = shaderProgram[ /* name */ ];
+  setShader( /* name */ );
   //bindTexture(); //see initTextures.js
 }
 
-function setShader(name){
+function setShader(name) {
   currentProgram = shaderProgram[name];
   gl.useProgram(currentProgram);
 }

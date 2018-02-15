@@ -13,7 +13,7 @@ function getCurrentTime() {
 
 function animate() {
   requestAnimFrame(animate);
-  getCurrentTime();
+  //getCurrentTime();
   drawScene();
 }
 

@@ -8,7 +8,7 @@ var txOffs = 0;
 var tyOffs = 0;
 var tzOffs = 0;
 
-var mouseXY = V3.$(0, 0, 0);
+var mouseXY = vec3.create();
 
 function interact() {
   canvas.onmousedown = function(ev) {
@@ -33,11 +33,11 @@ function interact() {
     if (ev.altKey) {
       localParam.camera.translate[2] = +ev.clientY / 10 + ev.clientX / 10 - tzOffs;
     } else if (ev.shiftKey) {
-      localParam.camera.translate[0] = ev.clientX / 10 - txOffs;
-      localParam.camera.translate[1] = ev.clientY / 10 - tyOffs;
+      localParam.camera.translate[0] = (ev.clientX / 10 - txOffs);
+      localParam.camera.translate[1] = (ev.clientY / 10 - tyOffs);
     } else {
       localParam.camera.rotate[1] = (ev.clientX / 100 - rxOffs);
-      localParam.camera.rotate[0] = (ev.clientY / 100 - ryOffs);
+      localParam.camera.rotate[0] = -(ev.clientY / 100 - ryOffs);
     }
   }
 }

@@ -39,7 +39,7 @@ function initGL() {
   initShaders();
   initTextures();
 
-  gl.clearColor(0., 0., 0., 0.);
+  gl.clearColor(0., 0., 0., 1.);
   gl.clearDepth(1.);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
   gl.enable(gl.BLEND);

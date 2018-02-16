@@ -6,26 +6,26 @@
   <meta charset="utf-8">
   <title>GL CANVAS</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script type="text/javascript" src="js/libs/gl-matrix-min.js"></script>
-  <script type="text/javascript" src="js/initWindow.js"></script>
-  <script type="text/javascript" src="js/initUniforms.js"></script>
-  <script type="text/javascript" src="js/initBuffers.js"></script>
-  <script type="text/javascript" src="js/initTextures.js"></script>
-  <script type="text/javascript" src="js/initShader.js"></script>
-  <script type="text/javascript" src="js/interact.js"></script>
-  <script type="text/javascript" src="js/parameters.js"></script>
-  <script type="text/javascript" src="js/animate.js"></script>
-  <script type="text/javascript" src="js/drawScene.js"></script>
+  <script src="js/libs/jquery-3.3.1.min.js"></script>
+  <script src="js/libs/gl-matrix-min.js"></script>
+  <script src="js/initWindow.js"></script>
+  <script src="js/initUniforms.js"></script>
+  <script src="js/initBuffers.js"></script>
+  <script src="js/initTextures.js"></script>
+  <script src="js/initShaders.js"></script>
+  <script src="js/interact.js"></script>
+  <script src="js/parameters.js"></script>
+  <script src="js/animate.js"></script>
+  <script src="js/drawScene.js"></script>
+  <script>
+    $(document).ready(function() {
+      GLJSstart();
+    });
+  </script>
 </head>
 
-<body onload="start()">
-  <!-- initWindow.js -->
-  <canvas id="c1"></canvas>
-  <!--
-  <script type="text/javascript">
-    initGL(); // same as <body onload="initGL()"> and faster but not 100% secure
-  </script>
-  -->
+<body>
+  <canvas id="gljs-canvas"></canvas>
 </body>
 
 </html>

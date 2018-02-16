@@ -1,7 +1,7 @@
 var gl;
 var canvas, width, height;
 
-function start() {
+function GLJSstart() {
   // Register an event listener to call the resizeCanvas() function
   // each time the window is resized.
   window.addEventListener('resize', initWindow, false);
@@ -9,11 +9,13 @@ function start() {
 }
 
 function initWindow() {
-  width = document.body.clientWidth - 2;
-  height = document.body.clientHeight - 2;
+  width = Math.ceil($(document.body).innerWidth() - 2);
+  height = Math.ceil($(document.body).innerHeight() - 2);
+  $("#gljs-canvas").width(width);
+  $("#gljs-canvas").height(height);
 
   try {
-    canvas = document.getElementById("c1");
+    canvas = document.getElementById("gljs-canvas");
     canvas.width = width;
     canvas.height = height;
 
@@ -23,8 +25,8 @@ function initWindow() {
       alert(msg);
       throw Error(msg);
     }
-    //gl.viewportWidth = width;
-    //gl.viewportHeight = height;
+    // gl.viewportWidth = width;
+    // gl.viewportHeight = height;
   } catch (e) {
     let msg = "Error creating WebGL Context : " + e.toString();
     alert(msg);

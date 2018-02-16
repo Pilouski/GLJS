@@ -9,17 +9,13 @@ function start() {
 }
 
 function initWindow() {
-  width = window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth;
-  height = window.innerHeight ||
-    document.documentElement.clientHeight ||
-    document.body.clientHeight;
+  width = document.body.clientWidth - 2;
+  height = document.body.clientHeight - 2;
 
   try {
     canvas = document.getElementById("c1");
-    //canvas.width = width;
-    //canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
     gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!gl) {
@@ -46,15 +42,15 @@ function initWindow() {
 
 function initGL() {
   //initTextures();
-  initShaders();
-  initBuffers();
+  //initShaders();
+  //initBuffers();
 
-  gl.clearColor(1, 0, 0, 1);
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
-  //gl.depthFunc(gl.LEQUAL);
-  //gl.clearDepth(1);
-  //gl.enable(gl.BLEND);
-  //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.depthFunc(gl.LEQUAL);
+  gl.clearDepth(1);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   //interact();
   //animate();

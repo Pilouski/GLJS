@@ -1,6 +1,6 @@
-shaders = {};
-SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
-SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+const SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
+const SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+var shaders = {};
 
 function addShaderProg(gl, vertex, fragment) {
 
@@ -27,7 +27,7 @@ function loadShader(file, type) {
 
   $.ajax({
     async: false, // need to wait... todo: deferred?
-    url: "shaders/" + file, //todo: use global config for shaders folder?
+    url: "/shaders/" + file, //todo: use global config for shaders folder?
     success: function(result) {
       cache = {
         script: result,
@@ -69,5 +69,4 @@ function getShader(gl, id) {
 
   //return the shader reference
   return shader;
-
 }

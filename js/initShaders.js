@@ -1,6 +1,6 @@
-shaders = {};
-SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
-SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+const SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
+const SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+var shaders = {};
 
 function addShaderProg(gl, vertex, fragment) {
 

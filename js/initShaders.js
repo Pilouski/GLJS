@@ -45,7 +45,7 @@ function onShadersLoadedCallback(vertex, fragment) {
     gl.shaderSource(vertexShader, vertex);
     gl.shaderSource(fragmentShader, fragment);
 
-    gl.compileShader(fragmentShader);
+    gl.compileShader(vertexShader);
     gl.compileShader(fragmentShader);
 
     var error = false;

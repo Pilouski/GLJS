@@ -1,13 +1,11 @@
-const SHADER_REGEX = () => {
-  let reg = '\([a-zA-Z0-9\s_\\.\-:])+(';
-  for (var ext in shaderParam.extensions) {
-    reg += ext + '|';
+const SHADER_REGEX = (function (a){
+  let reg = '([a-zA-Z0-9\s_\\.\-:])+(';
+  for (let i=0;i<a.length;i++) {
+    reg += a[i] + (i < a.length - 1 ? '|' : ')$');
   }
-  reg -= '|';
-  reg += ')$'
   return RegExp(reg, 'g');
-  // /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag)$/g;
-}
+  // /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag|...)$/g;
+})(shaderParam.extensions);
 
 function addShaderProg(vertex, fragment, name) {
   if (vertex == null || fragment == null)

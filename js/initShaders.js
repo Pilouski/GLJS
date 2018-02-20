@@ -1,14 +1,20 @@
 const SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
 const SHADER_TYPE_VERTEX = "x-shader/x-vertex";
-var shaders = {};
+const SHADER_REGEX = /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag)$/g;
+var shadersCache = {};
 
-function addShaderProg(gl, vertex, fragment) {
+function addShaderProg(vertex, fragment) {
+  if (vertex == null || fragment == null)
+    return null;
+  if (!vertex.match(SHADER_REGEX) || !fragment.match(SHADER_REGEX))
+    return undefined;
 
-  loadShader(vertex, SHADER_TYPE_VERTEX);
-  loadShader(fragment, SHADER_TYPE_FRAGMENT);
+  loadShaders(vertex, fragment, onShadersLoadedCallback);
+}
 
-  var vertexShader = getShader(gl, vertex);
-  var fragmentShader = getShader(gl, fragment);
+function onShadersLoadedCallback(vertex, fragment) {
+  var vertexShader = getShader(vertex);
+  var fragmentShader = getShader(fragment);
 
   var prog = gl.createProgram();
   gl.attachShader(prog, vertexShader);
@@ -22,28 +28,63 @@ function addShaderProg(gl, vertex, fragment) {
   return prog;
 }
 
-function loadShader(file, type) {
-  var cache, shader;
+// IS WORKING
+// function loadShaders(vertex, fragment, callback) {
+//   $.ajax({
+//     dataType: "text",
+//     url: "shaders/" + vertex,
+//     success: function(result) {
+//       // store in global cache
+//       shadersCache[vertex] = {
+//         script: result,
+//         type: SHADER_TYPE_VERTEX
+//       };
+//       $.ajax({
+//         dataType: "text",
+//         url: "shaders/" + fragment,
+//         success: function(result) {
+//           // store in global cache
+//           shadersCache[fragment] = {
+//             script: result,
+//             type: SHADER_TYPE_FRAGMENT
+//           };
+//           if (callback)
+//             callback(vertex, fragment);
+//         }
+//       });
+//     }
+//   });
+// }
 
+function loadShaders(vertex, fragment, callback) {
+  loadShader(vertex, SHADER_TYPE_VERTEX,
+    loadShader.bind(null, fragment, SHADER_TYPE_FRAGMENT,
+      callback.bind(null, vertex, fragment)
+    )
+  );
+}
+
+function loadShader(file, type, callback) {
+  var args = Array.prototype.slice.call(arguments);
   $.ajax({
-    async: false, // need to wait... todo: deferred?
-    url: "/shaders/" + file, //todo: use global config for shaders folder?
+    dataType: "text",
+    url: "shaders/" + file,
     success: function(result) {
-      cache = {
+      // store in global cache
+      shadersCache[file] = {
         script: result,
         type: type
       };
+      if (callback)
+        callback.apply(null, Array.prototype.slice.call(arguments, 3));
     }
   });
-
-  // store in global cache
-  shaders[file] = cache;
 }
 
-function getShader(gl, id) {
+function getShader(id) {
 
   //get the shader object from our main.shaders repository
-  var shaderObj = shaders[id];
+  var shaderObj = shadersCache[id];
   var shaderScript = shaderObj.script;
   var shaderType = shaderObj.type;
 
@@ -69,5 +110,4 @@ function getShader(gl, id) {
 
   //return the shader reference
   return shader;
-
 }

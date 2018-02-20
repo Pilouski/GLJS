@@ -28,5 +28,6 @@ function LocalParam() {
 }
 
 function ShaderParam() {
+  this.extensions = ['.vert', '.frag', '.v', '.f', '.vertex', '.fragment'];
   this.program = {};
 }

@@ -15,7 +15,7 @@ var vertexIndexBuffers = {};
 //}
 // function loadObject(name, file) {
 //   var request = new XMLHttpRequest();
-//   request.open("GET", file);
+//   request.open('GET', file);
 //   request.onreadystatechange = function() {
 //     if (request.readyState == 4) {
 //       initBuffer(name, JSON.parse(request.responseText));

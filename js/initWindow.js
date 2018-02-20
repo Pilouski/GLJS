@@ -65,13 +65,13 @@ function initWindow() {
 }
 
 function initGL() {
-  addShaderProg('test0.vert', 'test0.frag', 'test0');
-  //initTextures();
-  //initBuffers();
-
   $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
     insideEvent();
   })
+  
+  addShaderProg('test0.vert', 'test0.frag', 'test0');
+  //initTextures();
+  //initBuffers();
 }
 
 function insideEvent() {

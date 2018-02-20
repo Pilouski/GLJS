@@ -1,14 +1,44 @@
-shaders = {};
-SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
-SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+const SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
+const SHADER_TYPE_VERTEX = "x-shader/x-vertex";
+const SHADER_REGEX = /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag)$/g;
+var shadersCache = {};
 
-function addShaderProg(gl, vertex, fragment) {
+function addShaderProg(vertex, fragment) {
+  if (vertex == null || fragment == null)
+    return null;
+  if (!vertex.match(SHADER_REGEX) || !fragment.match(SHADER_REGEX))
+    return undefined;
 
-  loadShader(vertex, SHADER_TYPE_VERTEX);
-  loadShader(fragment, SHADER_TYPE_FRAGMENT);
+  loadShaders(vertex, fragment, onShadersLoadedCallback.bind(null, vertex, fragment));
+}
 
-  var vertexShader = getShader(gl, vertex);
-  var fragmentShader = getShader(gl, fragment);
+function loadShaders(vertex, fragment, callback) {
+  loadShader(vertex, SHADER_TYPE_VERTEX,
+    loadShader.bind(null, fragment, SHADER_TYPE_FRAGMENT,
+      callback
+    )
+  );
+}
+
+function loadShader(file, type, callback) {
+  $.ajax({
+    dataType: "text",
+    url: "shaders/" + file,
+    success: function(result) {
+      // store in global cache
+      shadersCache[file] = {
+        script: result,
+        type: type
+      };
+      if (callback)
+        callback();
+    }
+  });
+}
+
+function onShadersLoadedCallback(vertex, fragment) {
+  var vertexShader = getShader(vertex);
+  var fragmentShader = getShader(fragment);
 
   var prog = gl.createProgram();
   gl.attachShader(prog, vertexShader);
@@ -22,28 +52,10 @@ function addShaderProg(gl, vertex, fragment) {
   return prog;
 }
 
-function loadShader(file, type) {
-  var cache, shader;
-
-  $.ajax({
-    async: false, // need to wait... todo: deferred?
-    url: "shaders/" + file, //todo: use global config for shaders folder?
-    success: function(result) {
-      cache = {
-        script: result,
-        type: type
-      };
-    }
-  });
-
-  // store in global cache
-  shaders[file] = cache;
-}
-
-function getShader(gl, id) {
+function getShader(id) {
 
   //get the shader object from our main.shaders repository
-  var shaderObj = shaders[id];
+  var shaderObj = shadersCache[id];
   var shaderScript = shaderObj.script;
   var shaderType = shaderObj.type;
 
@@ -63,11 +75,10 @@ function getShader(gl, id) {
 
   //if things didn't go so well alert
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert(gl.getShaderInfoLog(shader));
+    alert("Error in "+id);
     return null;
   }
 
   //return the shader reference
   return shader;
-
 }

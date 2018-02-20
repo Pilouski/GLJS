@@ -1,5 +1,4 @@
 var localParam = new LocalParam();
-var shaderParam = new ShaderParam();
 
 function LocalParam() {
   //camera default
@@ -25,9 +24,22 @@ function LocalParam() {
   //frame related
   this.fps = 60.0;
   this.fpsAverage = 60.0;
+
 }
 
-function ShaderParam() {
-  this.extensions = ['.vert', '.frag', '.v', '.f', '.vertex', '.fragment'];
+enum fileExtensions = [];
+
+var shaderParam = new ShaderParam();
+
+function ShaderParam(){
+
   this.program = {};
+  this.vertexShader = {};
+  this.fragmentShader = {};
+
+  this.attributes = {};
+  this.attributes.vertexPositions = [];
+  this.attributes.textureCoordinates = [];
+  this.attributes.index = [];
+
 }

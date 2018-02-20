@@ -1,84 +1,83 @@
-const SHADER_TYPE_FRAGMENT = "x-shader/x-fragment";
-const SHADER_TYPE_VERTEX = "x-shader/x-vertex";
-const SHADER_REGEX = /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag)$/g;
-var shadersCache = {};
+const SHADER_REGEX = (function (a){
+  let reg = '([a-zA-Z0-9\s_\\.\-:])+(';
+  for (let i=0;i<a.length;i++) {
+    reg += a[i] + (i < a.length - 1 ? '|' : ')$');
+  }
+  return RegExp(reg, 'g');
+  // /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag|...)$/g;
+})(shaderParam.extensions);
 
-function addShaderProg(vertex, fragment) {
+function addShaderProg(vertex, fragment, name) {
   if (vertex == null || fragment == null)
     return null;
   if (!vertex.match(SHADER_REGEX) || !fragment.match(SHADER_REGEX))
     return undefined;
 
-  loadShaders(vertex, fragment, onShadersLoadedCallback.bind(null, vertex, fragment));
+  loadShaders(vertex, fragment, name, onShadersLoadedCallback);
 }
 
-function loadShaders(vertex, fragment, callback) {
-  loadShader(vertex, SHADER_TYPE_VERTEX,
-    loadShader.bind(null, fragment, SHADER_TYPE_FRAGMENT,
-      callback
-    )
-  );
-}
-
-function loadShader(file, type, callback) {
+function loadShaders(vertex, fragment, name, callback) {
   $.ajax({
-    dataType: "text",
-    url: "shaders/" + file,
-    success: function(result) {
-      // store in global cache
-      shadersCache[file] = {
-        script: result,
-        type: type
-      };
-      if (callback)
-        callback();
+    dataType: 'text',
+    url: 'shaders/' + vertex,
+    type : 'POST',
+    success: function(resV) {
+      $.ajax({
+        dataType: 'text',
+        url: 'shaders/' + fragment,
+        type : 'POST',
+        success: function(resF) {
+          if (callback)
+            shaderParam.program[name] = callback(resV, resF);
+        }
+      });
     }
   });
 }
 
 function onShadersLoadedCallback(vertex, fragment) {
-  var vertexShader = getShader(vertex);
-  var fragmentShader = getShader(fragment);
 
-  var prog = gl.createProgram();
-  gl.attachShader(prog, vertexShader);
-  gl.attachShader(prog, fragmentShader);
-  gl.linkProgram(prog);
+    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
 
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-    alert("Could not initialise main shaders");
-  }
+    gl.shaderSource(vertexShader, vertex);
+    gl.shaderSource(fragmentShader, fragment);
 
-  return prog;
-}
+    gl.compileShader(fragmentShader);
+    gl.compileShader(fragmentShader);
 
-function getShader(id) {
+    var error = false;
 
-  //get the shader object from our main.shaders repository
-  var shaderObj = shadersCache[id];
-  var shaderScript = shaderObj.script;
-  var shaderType = shaderObj.type;
+    // Compile vertex shader
+    if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+        alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(vertexShader));
+        error = true;
+    }
 
-  //create the right shader
-  var shader;
-  if (shaderType == "x-shader/x-fragment") {
-    shader = gl.createShader(gl.FRAGMENT_SHADER);
-  } else if (shaderType == "x-shader/x-vertex") {
-    shader = gl.createShader(gl.VERTEX_SHADER);
-  } else {
-    return null;
-  }
+    // Compile fragment shader
+    if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+        alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(vertexShader));
+        error = true;
+    }
 
-  //wire up the shader and compile
-  gl.shaderSource(shader, shaderScript);
-  gl.compileShader(shader);
+    // Create shader program consisting of shader pair
+    program = gl.createProgram();
 
-  //if things didn't go so well alert
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert("Error in "+id);
-    return null;
-  }
+    // Attach shaders to the program; these methods do not have a return value
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
 
-  //return the shader reference
-  return shader;
+    // Link the program - returns 0 if an error occurs
+    if (gl.linkProgram(program) == 0) {
+        console.log('gl.linkProgram(program) failed with error code 0.');
+        error = true;
+    }
+
+    if (error)  {
+        console.log('Failed to initialize shader.');
+        return null;
+    } else {
+        console.log('Shader successfully created.');
+        return program; // Return created program
+    }
 }

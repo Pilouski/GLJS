@@ -1,11 +1,11 @@
-const SHADER_REGEX = (function (a){
+const SHADER_REGEX = (function (){
   let reg = '([a-zA-Z0-9\s_\\.\-:])+(';
-  for (let i=0;i<a.length;i++) {
-    reg += a[i] + (i < a.length - 1 ? '|' : ')$');
+  for (let i=0;i<shaderParam.extensions.length;i++) {
+    reg += shaderParam.extensions[i] + (i < shaderParam.extensions.length - 1 ? '|' : ')$');
   }
   return RegExp(reg, 'g');
   // /([a-zA-Z0-9\s_\\.\-:])+(.vert|.frag|...)$/g;
-})(shaderParam.extensions);
+})();
 
 function addShaderProg(vertex, fragment, name) {
   if (vertex == null || fragment == null)
@@ -20,15 +20,17 @@ function loadShaders(vertex, fragment, name, callback) {
   $.ajax({
     dataType: 'text',
     url: 'shaders/' + vertex,
-    type : 'POST',
+    //type : 'POST', //(python3) html.server does not support 'POST'
     success: function(resV) {
       $.ajax({
         dataType: 'text',
         url: 'shaders/' + fragment,
-        type : 'POST',
+        //type : 'POST', //(python3) html.server does not support 'POST'
         success: function(resF) {
-          if (callback)
+          if (callback) {
             shaderParam.program[name] = callback(resV, resF);
+            $('#gljs-canvas').trigger('GLJSProgramLoaded_'+name, shaderParam.program[name]);
+          }
         }
       });
     }

@@ -9,7 +9,31 @@ function addShaderProg(vertex, fragment) {
   if (!vertex.match(SHADER_REGEX) || !fragment.match(SHADER_REGEX))
     return undefined;
 
-  loadShaders(vertex, fragment, onShadersLoadedCallback);
+  loadShaders(vertex, fragment, onShadersLoadedCallback.bind(null, vertex, fragment));
+}
+
+function loadShaders(vertex, fragment, callback) {
+  loadShader(vertex, SHADER_TYPE_VERTEX,
+    loadShader.bind(null, fragment, SHADER_TYPE_FRAGMENT,
+      callback
+    )
+  );
+}
+
+function loadShader(file, type, callback) {
+  $.ajax({
+    dataType: "text",
+    url: "shaders/" + file,
+    success: function(result) {
+      // store in global cache
+      shadersCache[file] = {
+        script: result,
+        type: type
+      };
+      if (callback)
+        callback();
+    }
+  });
 }
 
 function onShadersLoadedCallback(vertex, fragment) {
@@ -26,59 +50,6 @@ function onShadersLoadedCallback(vertex, fragment) {
   }
 
   return prog;
-}
-
-// IS WORKING
-// function loadShaders(vertex, fragment, callback) {
-//   $.ajax({
-//     dataType: "text",
-//     url: "shaders/" + vertex,
-//     success: function(result) {
-//       // store in global cache
-//       shadersCache[vertex] = {
-//         script: result,
-//         type: SHADER_TYPE_VERTEX
-//       };
-//       $.ajax({
-//         dataType: "text",
-//         url: "shaders/" + fragment,
-//         success: function(result) {
-//           // store in global cache
-//           shadersCache[fragment] = {
-//             script: result,
-//             type: SHADER_TYPE_FRAGMENT
-//           };
-//           if (callback)
-//             callback(vertex, fragment);
-//         }
-//       });
-//     }
-//   });
-// }
-
-function loadShaders(vertex, fragment, callback) {
-  loadShader(vertex, SHADER_TYPE_VERTEX,
-    loadShader.bind(null, fragment, SHADER_TYPE_FRAGMENT,
-      callback.bind(null, vertex, fragment)
-    )
-  );
-}
-
-function loadShader(file, type, callback) {
-  var args = Array.prototype.slice.call(arguments);
-  $.ajax({
-    dataType: "text",
-    url: "shaders/" + file,
-    success: function(result) {
-      // store in global cache
-      shadersCache[file] = {
-        script: result,
-        type: type
-      };
-      if (callback)
-        callback.apply(null, Array.prototype.slice.call(arguments, 3));
-    }
-  });
 }
 
 function getShader(id) {
@@ -104,7 +75,7 @@ function getShader(id) {
 
   //if things didn't go so well alert
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    alert(gl.getShaderInfoLog(shader));
+    alert("Error in "+id);
     return null;
   }
 

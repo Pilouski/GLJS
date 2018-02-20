@@ -40,7 +40,7 @@ function initWindow() {
         canvas.getContext('webkit-3d');
     }
     if (!gl) {
-      let msg = 'Error creating WebGL Context : Troubleshooting' +
+      let msg = 'Error creating GLJS Context : Troubleshooting' +
         '\nMore info here : https://get.webgl.org/troubleshooting/';
       alert(msg);
       throw Error(msg);
@@ -49,7 +49,7 @@ function initWindow() {
     gl.viewportHeight = height;
   } catch (e) {
     // some unexpected err
-    let msg = 'Error creating WebGL Context : ' + e.toString();
+    let msg = 'Error creating GLJS Context : ' + e.toString();
     alert(msg);
     throw Error(msg);
   }
@@ -58,17 +58,23 @@ function initWindow() {
     initGL()
   } catch (e) {
     // some unexpected err
-    let msg = 'Error initialising WebGL graphics context : ' + e.toString();
+    let msg = 'Error initialising GLJS graphics context : ' + e.toString();
     alert(msg);
     throw Error(msg);
   }
 }
 
 function initGL() {
-  addShaderProg('test0.vert', 'test0.frag');
+  addShaderProg('test0.vert', 'test0.frag', 'test0');
   //initTextures();
   //initBuffers();
 
+  $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
+    insideEvent();
+  })
+}
+
+function insideEvent() {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);

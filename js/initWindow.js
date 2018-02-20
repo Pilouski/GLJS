@@ -45,8 +45,8 @@ function initWindow() {
       alert(msg);
       throw Error(msg);
     }
-    // gl.viewportWidth = width;
-    // gl.viewportHeight = height;
+    gl.viewportWidth = width;
+    gl.viewportHeight = height;
   } catch (e) {
     // some unexpected err
     let msg = "Error creating WebGL Context : " + e.toString();

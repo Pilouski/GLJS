@@ -1,4 +1,17 @@
+/*
+File Last Updated by
+Name: Masato
+Date: 22/02/18
+Object:
+  Fix "fileExtensions" to Object
+  Add "extension" member to ShaderParam
+*/
+
+var fileExtensions = {};
+//Object.freeze(fileExtensions);
+
 var localParam = new LocalParam();
+var shaderParam = new ShaderParam();
 
 function LocalParam() {
   //camera default
@@ -27,11 +40,9 @@ function LocalParam() {
 
 }
 
-enum fileExtensions = [];
-
-var shaderParam = new ShaderParam();
-
 function ShaderParam(){
+
+  this.extensions = {};
 
   this.program = {};
   this.vertexShader = {};

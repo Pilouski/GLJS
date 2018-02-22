@@ -12,5 +12,8 @@ function drawScene() {
 
   setMatrixUniforms();
 
-  gl.flush();
+  drawBuffer(0);
+
+
+  //gl.flush();
 }

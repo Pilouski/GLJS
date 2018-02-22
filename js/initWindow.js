@@ -55,7 +55,7 @@ function initWindow() {
   }
 
   try {
-    initGL()
+    initGL();
   } catch (e) {
     // some unexpected err
     let msg = 'Error initialising GLJS graphics context : ' + e.toString();
@@ -68,10 +68,10 @@ function initGL() {
   $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
     insideEvent();
   })
-  
+
   addShaderProg('test0.vert', 'test0.frag', 'test0');
   //initTextures();
-  //initBuffers();
+  initBuffers();
 }
 
 function insideEvent() {

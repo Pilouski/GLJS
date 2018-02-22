@@ -28,7 +28,7 @@ var vertexIndexBuffers = {};
 function initBuffer(name, data) {
   vertexPositionBuffers[name] = gl.createBuffer();
   //vertexNormalBuffers[name] = gl.createBuffer();
-  vertexColorBuffers[name] = gl.createBuffer();
+  //vertexColorBuffers[name] = gl.createBuffer();
   //vertexTextureCoordBuffers[name] = gl.createBuffer();
   //vertexIndexBuffers[name] = gl.createBuffer();
 
@@ -42,10 +42,10 @@ function initBuffer(name, data) {
   // vertexNormalBuffers[name].itemSize = 3;
   // vertexNormalBuffers[name].numItems = data.vertexNormals.length / 3;
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffers[name]);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexColors), gl.STATIC_DRAW);
-  vertexColorBuffers[name].itemSize = 3;
-  vertexColorBuffers[name].numItems = data.vertexColors.length / 3;
+  //gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffers[name]);
+  //gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexColors), gl.STATIC_DRAW);
+  //vertexColorBuffers[name].itemSize = 3;
+  //vertexColorBuffers[name].numItems = data.vertexColors.length / 3;
 
   // gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffers[name]);
   // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexTextureCoords), gl.STATIC_DRAW);
@@ -57,6 +57,13 @@ function initBuffer(name, data) {
   // vertexIndexBuffers[name].itemSize = 1;
   // vertexIndexBuffers[name].numItems = data.indices.length;
 
+}
+
+function initBuffers(){
+  var bufferName = 0;
+  var bufferData = {};
+  bufferData.vertexPositions = [0, 0, 0];
+  initBuffer(bufferName, bufferData);
 }
 
 function drawBuffer(name) {
@@ -78,6 +85,6 @@ function drawBuffer(name) {
 
     //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffers[name]);
 
-    gl.drawElements(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
+    gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
   }
 }

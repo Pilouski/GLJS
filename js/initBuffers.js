@@ -1,3 +1,12 @@
+/*
+File Last Updated by
+Name: Masato
+Date: 17/03/18
+Object:
+  Comment unnecessary part of code
+  Did changes to display at least one red point without buffers.
+  TO DO: Connect layer of buffers with global parameters
+*/
 var vertexPositionBuffers = {};
 var vertexNormalBuffers = {};
 var vertexColorBuffers = {};
@@ -66,16 +75,18 @@ function initBuffers(){
   initBuffer(bufferName, bufferData);
 }
 
-function drawBuffer(name) {
+function drawBuffer(name, currentProgram) {
   if (vertexPositionBuffers[name]) {
+    gl.useProgram(currentProgram)
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffers[name]);
-    gl.vertexAttribPointer(currentProgram.vertexPositionAttribute, vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(vertexPositionBuffers[name], vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+  //  gl.vertexAttribPointer(currentProgram.vertexPositionAttribute, vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
 
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexNormalBuffers[name]);
     // gl.vertexAttribPointer(currentProgram.vertexNormalAttribute, vertexNormalBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffers[name]);
-    gl.vertexAttribPointer(currentProgram.vertexColorAttribute, vertexColorBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+    //gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffers[name]);
+    //gl.vertexAttribPointer(currentProgram.vertexColorAttribute, vertexColorBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
 
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexTextureCoordBuffers[name]);
     // gl.vertexAttribPointer(currentProgram.textureCoordAttribute, vertexTextureCoordBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
@@ -85,6 +96,8 @@ function drawBuffer(name) {
 
     //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffers[name]);
 
-    gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
+    gl.drawArrays(gl.POINTS, 0, 1);
+    //gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
   }
+
 }

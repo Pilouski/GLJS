@@ -1,3 +1,14 @@
+/*
+File Last Updated by
+Name: Masato
+Date: 17/03/18
+Object:
+  Comment unnecessary part of code
+  Fix: Did not compile vertex shader.
+  TO DO: Connect layer of buffers with global parameters
+*/
+
+
 /*const SHADER_REGEX = (function (){
   let reg = '([a-zA-Z0-9\s_\\.\-:])+(';
   for (let i=0;i<shaderParam.extensions.length;i++) {
@@ -45,7 +56,7 @@ function onShadersLoadedCallback(vertex, fragment) {
     gl.shaderSource(vertexShader, vertex);
     gl.shaderSource(fragmentShader, fragment);
 
-    gl.compileShader(fragmentShader);
+    gl.compileShader(vertexShader);
     gl.compileShader(fragmentShader);
 
     var error = false;

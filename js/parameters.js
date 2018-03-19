@@ -1,5 +1,6 @@
 var localParam = new LocalParam();
 var shaderParam = new ShaderParam();
+var bufferParam = new BufferParam();
 
 function LocalParam() {
   //camera default
@@ -29,5 +30,19 @@ function LocalParam() {
 
 function ShaderParam() {
   this.extensions = ['.vert', '.frag', '.v', '.f', '.vertex', '.fragment'];
-  this.program = {};
+  this.shaders = {
+    test0 : {
+      vertex : 'test0.vert',
+      fragment : 'test0.frag'
+    }
+  };
+  this.programs = {
+    test0 : {
+      name : 'test0'
+    }
+  };
+}
+
+function BufferParam() {
+  this.vertexPositionsBuffers = {};
 }

@@ -55,12 +55,15 @@ function initWindow() {
   }
 
   try {
-    //
-    $('#gljs-canvas').one('GLJSProgramLoaded_'+, function(ev, program) {
+    //te be upgraded
+    let vertexShader = shaderParam.shaders.test0.vertex,
+        fragmentShader = shaderParam.shaders.test0.fragment,
+        programName = shaderParam.programstest0.name;
+    $('#gljs-canvas').one('GLJSProgramLoaded_'+programName, function(ev, program) {
       initGL(program);
     })
-    
-    addShaderProg('test0.vert', 'test0.frag', 'test0');
+
+    addShaderProg(vertexShader, fragmentShader, programName);
   } catch (e) {
     // some unexpected err
     let msg = 'Error initialising GLJS graphics context : ' + e.toString();
@@ -69,7 +72,7 @@ function initWindow() {
   }
 }
 
-function initGL(var program) {
+function initGL(program) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);
@@ -79,6 +82,13 @@ function initGL(var program) {
 
   //interact();
   //animate();
+
+  /* get attributes loc */
+  gl.useProgram(program);
+    var positionLocation = gl.getAttribLocation(program, "v_position");
+  gl.useProgram(null);
+
+  initBuffer(shaderParam.programs.test0.name, [0,0,0]);
   initUniforms();
   drawScene();
   draw();

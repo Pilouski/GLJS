@@ -20,6 +20,6 @@ function drawScene() {
 
   setMatrixUniforms();
 */
-  drawBuffer(0, shaderParam.program["test0"]);
+  drawBuffer('test0');
   //gl.flush();
 }

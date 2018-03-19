@@ -7,11 +7,13 @@ Object:
   Did changes to display at least one red point without buffers.
   TO DO: Connect layer of buffers with global parameters
 */
+
 var vertexPositionBuffers = {};
 var vertexNormalBuffers = {};
 var vertexColorBuffers = {};
 var vertexTextureCoordBuffers = {};
 var vertexIndexBuffers = {};
+
 //var buffersOK = {};
 
 //load JSON object
@@ -34,7 +36,7 @@ var vertexIndexBuffers = {};
 //   request.send();
 // }
 
-function initBuffer(name, data) {
+function initBuffer(name) {
   vertexPositionBuffers[name] = gl.createBuffer();
   //vertexNormalBuffers[name] = gl.createBuffer();
   //vertexColorBuffers[name] = gl.createBuffer();
@@ -42,9 +44,9 @@ function initBuffer(name, data) {
   //vertexIndexBuffers[name] = gl.createBuffer();
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffers[name]);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexPositions), gl.STATIC_DRAW);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(shaderParam.attributes.vertexPositions.data), gl.STATIC_DRAW);
   vertexPositionBuffers[name].itemSize = 3;
-  vertexPositionBuffers[name].numItems = data.vertexPositions.length / 3;
+  vertexPositionBuffers[name].numItems = shaderParam.attributes.vertexPositions.data.length / vertexPositionBuffers[name].itemSize;
 
   // gl.bindBuffer(gl.ARRAY_BUFFER, vertexNormalBuffers[name]);
   // gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.vertexNormals), gl.STATIC_DRAW);
@@ -68,20 +70,21 @@ function initBuffer(name, data) {
 
 }
 
-function initBuffers(){
-  var bufferName = 0;
-  var bufferData = {};
-  bufferData.vertexPositions = [0, 0, 0];
-  initBuffer(bufferName, bufferData);
+function initBuffers(name){
+  shaderParam.attributes.vertexPositions.data = [-1.0, -1.0, 0.0, 1.0, -1.0, 0.0, 0.0, 1.0, 0.0];
+  initBuffer(name);
 }
 
-function drawBuffer(name, currentProgram) {
+function drawBuffer(name) {
   if (vertexPositionBuffers[name]) {
-    gl.useProgram(currentProgram)
+    gl.useProgram(shaderParam.program[name])
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffers[name]);
-    gl.vertexAttribPointer(vertexPositionBuffers[name], vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
-  //  gl.vertexAttribPointer(currentProgram.vertexPositionAttribute, vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
 
+    //this must be placed elsewhere
+    shaderParam.attributes.vertexPositions.location = gl.getAttribLocation(shaderParam.program[name], "v_position");
+
+    gl.vertexAttribPointer(shaderParam.attributes.vertexPositions.location, vertexPositionBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(shaderParam.attributes.vertexPositions.location);
     // gl.bindBuffer(gl.ARRAY_BUFFER, vertexNormalBuffers[name]);
     // gl.vertexAttribPointer(currentProgram.vertexNormalAttribute, vertexNormalBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
 
@@ -96,7 +99,7 @@ function drawBuffer(name, currentProgram) {
 
     //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffers[name]);
 
-    gl.drawArrays(gl.POINTS, 0, 1);
+    gl.drawArrays(gl.POINTS, 0, vertexPositionBuffers[name].numItems);
     //gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
   }
 

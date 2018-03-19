@@ -11,7 +11,7 @@ var fileExtensions = {};
 //Object.freeze(fileExtensions);
 
 var localParam = new LocalParam();
-var shaderParam = new ShaderParam();
+var shaderParam = new ShaderParametersData();
 
 function LocalParam() {
   //camera default
@@ -40,7 +40,7 @@ function LocalParam() {
 
 }
 
-function ShaderParam(){
+function ShaderParametersData(){
 
   this.extensions = {};
 
@@ -49,8 +49,14 @@ function ShaderParam(){
   this.fragmentShader = {};
 
   this.attributes = {};
-  this.attributes.vertexPositions = [];
-  this.attributes.textureCoordinates = [];
+  this.attributes.vertexPositions = {};
+  this.attributes.vertexPositions.data = [];
+  this.attributes.vertexPositions.location = {};
+
+  this.attributes.textureCoordinates = {};
+  this.attributes.textureCoordinates.data = [];
+  this.attributes.textureCoordinates.location = {};
+
   this.attributes.index = [];
 
 }

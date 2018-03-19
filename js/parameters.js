@@ -1,4 +1,5 @@
 var localParam = new LocalParam();
+var shaderParam = new ShaderParam();
 
 function LocalParam() {
   //camera default
@@ -9,7 +10,7 @@ function LocalParam() {
     rotate: [-0.3, 0, 0],
     translate: [0, 0, -280],
     eye: [0, 0, -64]
-  };  
+  };
 
   //LOD
   this.LODBias = 8.0;
@@ -24,4 +25,9 @@ function LocalParam() {
   //frame related
   this.fps = 60.0;
   this.fpsAverage = 60.0;
+}
+
+function ShaderParam() {
+  this.extensions = ['.vert', '.frag', '.v', '.f', '.vertex', '.fragment'];
+  this.program = {};
 }

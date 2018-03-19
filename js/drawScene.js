@@ -10,7 +10,5 @@ function drawScene() {
 
   mat4.getTranslation(localParam.camera.eye, viewMatrix);
 
-  setMatrixUniforms();
-
-  gl.flush();
+  //gl.flush();
 }

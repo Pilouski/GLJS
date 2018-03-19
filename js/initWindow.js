@@ -71,7 +71,20 @@ function initWindow() {
 }
 
 function initGL(program) {
+
+  $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
+    insideEvent();
+  })
+
+  addShaderProg('test0.vert', 'test0.frag', 'test0');
+  //initTextures();
+  initBuffers('test0');
+}
+
+function insideEvent() {
+
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
   gl.enable(gl.DEPTH_TEST);
   //gl.depthFunc(gl.LEQUAL);
   gl.clearDepth(1);

@@ -39,8 +39,8 @@ function loadShaders(vertex, fragment, name, callback) {
         //type : 'POST', //(python3) html.server does not support 'POST'
         success: function(resF) {
           if (callback) {
-            shaderParam.program[name] = callback(resV, resF);
-            $('#gljs-canvas').trigger('GLJSProgramLoaded_'+name, shaderParam.program[name]);
+            shaderParam.programs[name] = callback(resV, resF);
+            $('#gljs-canvas').trigger('GLJSProgramLoaded_'+name, shaderParam.programs[name]);
           }
         }
       });

@@ -36,11 +36,8 @@ function ShaderParam() {
       fragment : 'test0.frag'
     }
   };
-  this.programs = {
-    test0 : {
-      name : 'test0'
-    }
-  };
+  this.programs = {};
+  this.attributeslocations = {};
 }
 
 function BufferParam() {

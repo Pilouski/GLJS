@@ -34,13 +34,12 @@ Object:
 // }
 
 function initBuffer(name, data) {
-  var vertexPositionsBuffer = bufferParam.vertexPositionsBuffers[name];
-  vertexPositionsBuffer = gl.createBuffer();
+  bufferParam.vertexPositionsBuffers[name] = gl.createBuffer();
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionsBuffer);
+  gl.bindBuffer(gl.ARRAY_BUFFER, bufferParam.vertexPositionsBuffers[name]);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
-  vertexPositionBuffers[name].itemSize = 3;
-  vertexPositionBuffers[name].numItems = data.vertexPositions.length / 3;
+  bufferParam.vertexPositionsBuffers[name].itemSize = 3;
+  bufferParam.vertexPositionsBuffers[name].numItems = data.length / bufferParam.vertexPositionsBuffers[name].itemSize;
 
   gl.bindBuffer(gl.ARRAY_BUFFER, null); // unbind
 }
@@ -52,14 +51,17 @@ function initBuffer(name, data) {
 //   initBuffer(bufferName, bufferData);
 // }
 
-function drawBuffer(name, currentProgram) {
-  var vertexPositionsBuffer = bufferParam.vertexPositionsBuffers[name];
-  if (vertexPositionsBuffer) {
-    gl.useProgram(currentProgram);
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionsBuffer);
-    gl.vertexAttribPointer(vertexPositionsBuffer, vertexPositionsBuffer.itemSize, gl.FLOAT, false, 0, 0);
+function drawBuffer(name) {
+  if (bufferParam.vertexPositionsBuffers[name]) {
+    gl.useProgram(shaderParam.programs[name]);
 
-    gl.drawArrays(gl.POINTS, 0, 1);
+      aPositionLoc = shaderParam.attributeslocations.v_position;
+      gl.bindBuffer(gl.ARRAY_BUFFER, bufferParam.vertexPositionsBuffers[name]);
+        gl.enableVertexAttribArray(aPositionLoc)
+        gl.vertexAttribPointer(aPositionLoc, bufferParam.vertexPositionsBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+        gl.drawArrays(gl.POINTS, 0, bufferParam.vertexPositionsBuffers[name].numItems);
     //gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
     gl.useProgram(null);
   }

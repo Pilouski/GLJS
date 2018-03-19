@@ -1,15 +1,3 @@
-/*
-File Last Updated by
-Name: Masato
-Date: 22/02/18
-Object:
-  Fix "fileExtensions" to Object
-  Add "extension" member to ShaderParam
-*/
-
-var fileExtensions = {};
-//Object.freeze(fileExtensions);
-
 var localParam = new LocalParam();
 var shaderParam = new ShaderParam();
 
@@ -37,20 +25,10 @@ function LocalParam() {
   //frame related
   this.fps = 60.0;
   this.fpsAverage = 60.0;
-
 }
 
-function ShaderParam(){
-
-  this.extensions = {};
-
-  this.program = {};
-  this.vertexShader = {};
-  this.fragmentShader = {};
-
-  this.attributes = {};
-  this.attributes.vertexPositions = [];
-  this.attributes.textureCoordinates = [];
-  this.attributes.index = [];
-
+function ShaderParam() {
+  this.extensions = ['.vert', '.frag', '.v', '.f', '.vertex', '.fragment'];
+  this.shaders = {};
+  this.programs = {};
 }

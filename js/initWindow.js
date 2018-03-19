@@ -55,7 +55,12 @@ function initWindow() {
   }
 
   try {
-    initGL();
+    //
+    $('#gljs-canvas').one('GLJSProgramLoaded_'+, function(ev, program) {
+      initGL(program);
+    })
+
+    addShaderProg('test0.vert', 'test0.frag', 'test0');
   } catch (e) {
     // some unexpected err
     let msg = 'Error initialising GLJS graphics context : ' + e.toString();
@@ -64,17 +69,7 @@ function initWindow() {
   }
 }
 
-function initGL() {
-  $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
-    insideEvent();
-  })
-
-  addShaderProg('test0.vert', 'test0.frag', 'test0');
-  //initTextures();
-  initBuffers();
-}
-
-function insideEvent() {
+function initGL(var program) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthFunc(gl.LEQUAL);
@@ -84,5 +79,8 @@ function insideEvent() {
 
   //interact();
   //animate();
+
+  initUniforms();
   drawScene();
+  draw();
 }

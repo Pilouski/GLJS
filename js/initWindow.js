@@ -45,6 +45,7 @@ function initWindow() {
       alert(msg);
       throw Error(msg);
     }
+    gl = WebGLDebugUtils.makeDebugContext(gl); //debug purpose
     gl.viewportWidth = width;
     gl.viewportHeight = height;
   } catch (e) {
@@ -56,14 +57,11 @@ function initWindow() {
 
   try {
     //te be upgraded
-    let vertexShader = shaderParam.shaders.test0.vertex,
-        fragmentShader = shaderParam.shaders.test0.fragment,
-        programName = shaderParam.programstest0.name;
-    $('#gljs-canvas').one('GLJSProgramLoaded_'+programName, function(ev, program) {
+    $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
       initGL(program);
     })
 
-    addShaderProg(vertexShader, fragmentShader, programName);
+    addShaderProg('test0.vert', 'test0.frag', 'test0');
   } catch (e) {
     // some unexpected err
     let msg = 'Error initialising GLJS graphics context : ' + e.toString();
@@ -75,21 +73,21 @@ function initWindow() {
 function initGL(program) {
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
-  gl.depthFunc(gl.LEQUAL);
+  //gl.depthFunc(gl.LEQUAL);
   gl.clearDepth(1);
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  //gl.enable(gl.BLEND);
+  //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   //interact();
   //animate();
 
   /* get attributes loc */
   gl.useProgram(program);
-    var positionLocation = gl.getAttribLocation(program, "v_position");
+    shaderParam.attributeslocations["v_position"] = gl.getAttribLocation(program, "v_position");
   gl.useProgram(null);
 
-  initBuffer(shaderParam.programs.test0.name, [0,0,0]);
-  initUniforms();
+  initBuffer('test0', [-.5,-.5,0, .5,-.5,0, 0,.5,0, 0,0,0]);
+  //initUniforms();
   drawScene();
-  draw();
+  //draw();
 }

@@ -37,7 +37,9 @@ function ShaderParam() {
     }
   };
   this.programs = {};
-  this.attributeslocations = {};
+  this.attributeslocations = {
+    v_position : undefined
+  };
 }
 
 function BufferParam() {

@@ -4,6 +4,5 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border: 1px solid #ffffff;
-  
+  /*border: 1px solid #ffffff;*/
 }

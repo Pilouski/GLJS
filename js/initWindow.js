@@ -84,14 +84,15 @@ function initGL(program) {
   //gl.enable(gl.BLEND);
   //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-  //interact();
-  //animate();
-
   /* get attributes loc */
   gl.useProgram(program);
-    shaderParam.attributeslocations["v_position"] = gl.getAttribLocation(program, "v_position");
+    $.each(shaderParam.attributeslocations, function(index) {
+      shaderParam.attributeslocations[index] = gl.getAttribLocation(program, index);
+    });
   gl.useProgram(null);
 
+  //interact();
+  //animate();
   initBuffer('test0', [-.5,-.5,0, .5,-.5,0, 0,.5,0, 0,0,0]);
   //initUniforms();
   drawScene();

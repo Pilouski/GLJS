@@ -1,5 +1,8 @@
-var gl;
-var canvas, width, height;
+var canvas, gl, width, height,
+    url = new URL(window.location.href),
+    debug = url.searchParams.get("debug");
+
+console.log(debug || 'No URL parameters');
 
 function GLJSstart() {
   if (!!window.WebGLRenderingContext == true) {
@@ -45,7 +48,10 @@ function initWindow() {
       alert(msg);
       throw Error(msg);
     }
-    gl = WebGLDebugUtils.makeDebugContext(gl); //debug purpose
+    /*------------------DEBUG-------------------*/
+    if (!!debug===true)
+      gl = WebGLDebugUtils.makeDebugContext(gl);
+    /*------------------------------------------*/
     gl.viewportWidth = width;
     gl.viewportHeight = height;
   } catch (e) {

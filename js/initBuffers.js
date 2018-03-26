@@ -99,7 +99,7 @@ function drawBuffer(name) {
 
     //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vertexIndexBuffers[name]);
 
-    gl.drawArrays(gl.POINTS, 0, vertexPositionBuffers[name].numItems);
+    gl.drawArrays(gl.TRIANGLES, 0, vertexPositionBuffers[name].numItems);
     //gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
   }
 

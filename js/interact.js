@@ -1,6 +1,17 @@
 // Original code by Evgeny Demidov
 // http://www.ibiblio.org/e-notes/webgl/gpu/n-toy.html
 
+/*
+File Last Updated by
+Name: Masato
+Date: 28/03/18
+Object:
+  Comment unnecessary part of code
+  Connected interaction to modelMatrix
+  Added drawScene callback in mousedrag event
+  TO DO: Precise movement in interaction
+*/
+
 var drag = 0;
 var rxOffs = 0;
 var ryOffs = 0;
@@ -10,7 +21,7 @@ var tzOffs = 0;
 
 var mouseXY = vec3.create();
 
-function interact() {
+function interact(callback) {
   canvas.onmousedown = function(ev) {
     drag = 1;
     rxOffs = ev.clientX / 100 - localParam.camera.rotate[1];
@@ -28,7 +39,6 @@ function interact() {
     tzOffs = +ev.clientY / 10 + ev.clientX / 10;
   }
   canvas.onmousemove = function(ev) {
-
     if (drag == 0) return;
     if (ev.altKey) {
       localParam.camera.translate[2] = +ev.clientY / 10 + ev.clientX / 10 - tzOffs;
@@ -38,6 +48,9 @@ function interact() {
     } else {
       localParam.camera.rotate[1] = (ev.clientX / 100 - rxOffs);
       localParam.camera.rotate[0] = -(ev.clientY / 100 - ryOffs);
+    }
+    if(callback){
+      callback();
     }
   }
 }

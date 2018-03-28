@@ -1,3 +1,12 @@
+/*
+File Last Updated by
+Name: Masato
+Date: 28/03/18
+Object:
+  Connected interaction to modelMatrix
+  TO DO: Precise movement in interaction
+*/
+
 var gl;
 var canvas, width, height;
 
@@ -75,32 +84,29 @@ function initGL(program) {
   $('#gljs-canvas').one('GLJSProgramLoaded_test0', function(ev, program) {
     insideEvent();
   })
-
   addShaderProg('test0.vert', 'test0.frag', 'test0');
   //initTextures();
-  initBuffers('test0');
+  //initBuffers('test0');
 }
 
 function insideEvent() {
-
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
-
-  gl.enable(gl.DEPTH_TEST);
   //gl.depthFunc(gl.LEQUAL);
-  gl.clearDepth(1);
   //gl.enable(gl.BLEND);
   //gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-  //interact();
+  interact(drawScene);
   //animate();
 
-  /* get attributes loc */
+  /* get attributes &  loc */
   gl.useProgram(program);
-    shaderParam.attributeslocations["v_position"] = gl.getAttribLocation(program, "v_position");
-  gl.useProgram(null);
+    shaderParam.attributesLocations["v_position"] = gl.getAttribLocation(program, "v_position");
+    shaderParam.uniformsLocations["projectionMatrix"] = gl.getUniformLocation(program, "projectionMatrix");
+    shaderParam.uniformsLocations["viewMatrix"] = gl.getUniformLocation(program, "viewMatrix");
+    shaderParam.uniformsLocations["modelMatrix"] = gl.getUniformLocation(program, "modelMatrix");
 
-  initBuffer('test0', [-.5,-.5,0, .5,-.5,0, 0,.5,0, 0,0,0]);
-  //initUniforms();
+  initBuffer('test0', [-1.,-1, 0, 1, -1, 0, 0, 1, 0]);
+  initUniforms();
+gl.useProgram(null);
   drawScene();
   //draw();
 }

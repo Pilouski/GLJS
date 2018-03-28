@@ -1,12 +1,16 @@
 /*
 File Last Updated by
 Name: Masato
-Date: 17/03/18
+Date: 28/03/18
 Object:
   Comment unnecessary part of code
-  TO DO: Connect layer of buffers with global parameters
+  Connected interaction to modelMatrix
+  TO DO: Precise movement in interaction
 */
 function drawScene() {
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.enable(gl.DEPTH_TEST);
+  gl.clearDepth(1);
   gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -20,6 +24,7 @@ function drawScene() {
 
   setMatrixUniforms();
 */
+  setMatrixUniforms('test0');
   drawBuffer('test0');
   //gl.flush();
 }

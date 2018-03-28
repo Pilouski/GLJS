@@ -5,12 +5,12 @@ var bufferParam = new BufferParam();
 function LocalParam() {
   //camera default
   this.camera = {
-    near: 5,
-    far: 530,
+    near: 1,
+    far: 100,
     fovy: 40,
-    rotate: [-0.3, 0, 0],
-    translate: [0, 0, -280],
-    eye: [0, 0, -64]
+    rotate: [0, 0, 0],
+    translate: [0, 0, -1],
+    //eye: [0, 0, -64]
   };
 
   //LOD
@@ -37,7 +37,8 @@ function ShaderParam() {
     }
   };
   this.programs = {};
-  this.attributeslocations = {};
+  this.attributesLocations = {};
+  this.uniformsLocations = {};
 }
 
 function BufferParam() {

@@ -55,17 +55,13 @@ function drawBuffer(name) {
   if (bufferParam.vertexPositionsBuffers[name]) {
     gl.useProgram(shaderParam.programs[name]);
 
-      aPositionLoc = shaderParam.attributeslocations.v_position;
-      gl.bindBuffer(gl.ARRAY_BUFFER, bufferParam.vertexPositionsBuffers[name]);
-        gl.enableVertexAttribArray(aPositionLoc)
-        gl.vertexAttribPointer(aPositionLoc, bufferParam.vertexPositionsBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
-      gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    aPositionLoc = shaderParam.attributesLocations["v_position"];
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferParam.vertexPositionsBuffers[name]);
+    gl.enableVertexAttribArray(aPositionLoc)
+    gl.vertexAttribPointer(aPositionLoc, bufferParam.vertexPositionsBuffers[name].itemSize, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-<<<<<<< HEAD
-        gl.drawArrays(gl.POINTS, 0, bufferParam.vertexPositionsBuffers[name].numItems);
-=======
-    gl.drawArrays(gl.TRIANGLES, 0, vertexPositionBuffers[name].numItems);
->>>>>>> draw triangle instead of points
+    gl.drawArrays(gl.TRIANGLES, 0, bufferParam.vertexPositionsBuffers[name].numItems);
     //gl.drawArrays(gl.TRIANGLES, vertexPositionBuffers[name].numItems, gl.UNSIGNED_SHORT, 0);
     gl.useProgram(null);
   }

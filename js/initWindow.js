@@ -86,7 +86,6 @@ function initGL(program) {
   })
   addShaderProg('test0.vert', 'test0.frag', 'test0');
   //initTextures();
-  //initBuffers('test0');
 }
 
 function insideEvent() {
@@ -104,9 +103,9 @@ function insideEvent() {
     shaderParam.uniformsLocations["viewMatrix"] = gl.getUniformLocation(program, "viewMatrix");
     shaderParam.uniformsLocations["modelMatrix"] = gl.getUniformLocation(program, "modelMatrix");
 
-  initBuffer('test0', [-1.,-1, 0, 1, -1, 0, 0, 1, 0]);
-  initUniforms();
-gl.useProgram(null);
+    initBuffer('test0', [-1.,-1, 0, 1, -1, 0, 0, 1, 0]);
+    initUniforms();
+  gl.useProgram(null);
   drawScene();
   //draw();
 }
